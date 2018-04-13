@@ -2,7 +2,7 @@ os: linux
 language: bash
 
 before_script:
-  - chmod +x ./tests/basic
+  - chmod +x ./tests/main
 
 script:
-  - ./tests/basic
+  - ./tests/main

@@ -1,18 +1,8 @@
 #!/bin/bash
 
-# Configure
-set -e
-script=$(readlink -f "$0")
-cd "$(dirname "$script")"
-source ../src/yaml
-YAML_FILENAME=sample.yml
-
-if which tput > /dev/null 2>&1 && [[ $(tput -T$TERM colors) -ge 8 ]]; then
-    RED='\033[0;31m'
-    GREEN='\033[0;32m'
-    NC='\033[0m' # No Color
-fi
-
+SCRIPT_DIR=$( cd "$( dirname "$(readlink -f "${BASH_SOURCE[0]}")" )" && pwd )
+source $SCRIPT_DIR/../src/yaml
+YAML_FILENAME=$SCRIPT_DIR/sample.yml
 
 # Define tests
 function test_reading_values() {
@@ -35,14 +25,3 @@ function test_replacing_values() {
     [ "$(echo "$replaced" | yaml_get_value author.email )" == "someone@email.com" ] &&
     return 0 || return 1
 }
-
-# Compile tests
-test_names=($(cat "$script" | grep "^function test_" | sed "s/^function \(test_[^(]\+\).*/\1/g"))
-test_command=
-for test_name in ${test_names[@]}; do
-    test_command="${test_command} && (${test_name} && echo -e '${GREEN}${test_name} ok! ${NC}' || echo -e '${RED}${test_name} failed! ${NC}')"
-done
-test_command=${test_command:4}
-
-# Run tests
-eval "$test_command" && echo -e "\n${GREEN}All tests are green! Hurray! ${NC}" && exit 0 || echo -e "\n${RED}Some tests have errors! ${NC}" && exit 1

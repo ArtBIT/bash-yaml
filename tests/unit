@@ -1,0 +1,32 @@
+# vim: set ft=bash
+
+if which tput > /dev/null 2>&1 && [[ $(tput -T$TERM colors) -ge 8 ]]; then
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    NC='\033[0m' # No Color
+fi
+
+function run_test() {
+    test_name="$1"
+    echo -ne "  - $test_name ... "
+    eval "$test_name"
+    if [ $? -eq 0 ]; then
+        echo -ne "${GREEN}OK${NC}\n"
+        return 0
+    fi
+    echo -ne "${RED}FAIL${NC}\n"
+    return 1
+}
+
+function run_unit() {
+    test_script_name="$1"
+    echo "Test suite $(basename $test_script_name):"
+
+    source "$test_script_name"
+    # Compile tests
+    test_names=($(cat "$test_script_name" | grep "^function test_" | sed "s/^function \(test_[^(]\+\).*/\1/g"))
+    for test_name in ${test_names[@]}; do
+        run_test "${test_name}"
+    done
+}
+

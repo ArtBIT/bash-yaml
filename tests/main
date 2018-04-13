@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+TESTS=$( cd "$( dirname "$(readlink -f "${BASH_SOURCE[0]}")" )" && pwd )
+source "$TESTS/unit"
+
+for unit in $TESTS/test_*; do
+    run_unit "$unit"
+done 
+
