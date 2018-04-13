@@ -1,0 +1,8 @@
+os: linux
+language: bash
+
+before_script:
+  - chmod +x ./tests/basic
+
+script:
+  - ./tests/basic
