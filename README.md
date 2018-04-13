@@ -1,5 +1,5 @@
 # Bash-YAML
-[![GitHub license](https://img.shields.io/github/license/ArtBIT/bash-yaml.svg)](https://github.com/ArtBIT/bash-yaml) [![GitHub stars](https://img.shields.io/github/stars/ArtBIT/bash-yaml.svg)](https://github.com/ArtBIT/bash-yaml)  [![awesomeness](https://img.shields.io/badge/awesomeness-maximum-red.svg)](https://github.com/ArtBIT/bash-yaml)
+[![Build Status](https://travis-ci.org/ArtBIT/bash-yaml.svg)](https://travis-ci.org/ArtBIT/bash-yaml) [![GitHub license](https://img.shields.io/github/license/ArtBIT/bash-yaml.svg)](https://github.com/ArtBIT/bash-yaml) [![GitHub stars](https://img.shields.io/github/stars/ArtBIT/bash-yaml.svg)](https://github.com/ArtBIT/bash-yaml)  [![awesomeness](https://img.shields.io/badge/awesomeness-maximum-red.svg)](https://github.com/ArtBIT/bash-yaml)
 
 Bash-YAML is a simple YAML parser.
 
