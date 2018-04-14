@@ -4,9 +4,16 @@
 Bash-YAML is a simple YAML parser.
 
 # Installation
+
+## Manually
 ```
 git clone https://github.com/ArtBIT/bash-yaml.git
 source path/to/bash-yaml/src/yaml
+```
+
+## Using [bash-clam](https://github.com/ArtBIT/bash-clam)
+```
+clam install ArtBIT/bash-yaml --source src/yaml
 ```
 
 # Usage
