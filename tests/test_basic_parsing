@@ -32,6 +32,6 @@ function test_parse() {
     eval "$(echo "$yaml" | yaml_parse author.email --prefix test)"
     [ "$test_author_name" == "Djordje Ungar" ] &&
     [ "$test_author_username" == "artbit" ] &&
-    [ "$test_author_email" == "artbit@email_com" ] &&
+    [ "$test_author_email" == "artbit@email.com" ] &&
     return 0 || return 1
 }
