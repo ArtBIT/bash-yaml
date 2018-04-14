@@ -42,7 +42,7 @@ eval "$(cat example2.yml | yaml_parse app.settings)"
 # app_settings.color="#DADADA"
 # app_settings.language="en"
 
-eval "$(cat example.yml | yaml_parse app.settings --prefix=noconflict)"
+eval "$(cat example.yml | yaml_parse app.settings --prefix noconflict)"
 # Defines the following bash variables
 # noconflict_app_settings=""
 # noconflict_app_settings.title="My Awesome App"
