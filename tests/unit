@@ -26,7 +26,7 @@ function run_unit() {
     # Compile tests
     test_names=($(cat "$test_script_name" | grep "^function test_" | sed "s/^function \(test_[^(]\+\).*/\1/g"))
     for test_name in ${test_names[@]}; do
-        run_test "${test_name}"
+        run_test "${test_name}" || return 1
     done
 }
 

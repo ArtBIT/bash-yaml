@@ -25,3 +25,13 @@ function test_replacing_values() {
     [ "$(echo "$replaced" | yaml_get_value author.email )" == "someone@email.com" ] &&
     return 0 || return 1
 }
+function test_parse() {
+    yaml=$(cat $YAML_FILENAME)
+    eval "$(echo "$yaml" | yaml_parse author.name --prefix test)"
+    eval "$(echo "$yaml" | yaml_parse author.username --prefix test)"
+    eval "$(echo "$yaml" | yaml_parse author.email --prefix test)"
+    [ "$test_author_name" == "Djordje Ungar" ] &&
+    [ "$test_author_username" == "artbit" ] &&
+    [ "$test_author_email" == "artbit@email_com" ] &&
+    return 0 || return 1
+}
