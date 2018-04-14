@@ -1,32 +1,33 @@
 # vim: set ft=bash
 
-if which tput > /dev/null 2>&1 && [[ $(tput -T$TERM colors) -ge 8 ]]; then
-    RED='\033[0;31m'
-    GREEN='\033[0;32m'
-    NC='\033[0m' # No Color
-fi
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+NORMAL=$(tput sgr0)
 
-function run_test() {
-    test_name="$1"
-    echo -ne "  - $test_name ... "
-    eval "$test_name"
-    if [ $? -eq 0 ]; then
-        echo -ne "${GREEN}OK${NC}\n"
-        return 0
-    fi
-    echo -ne "${RED}FAIL${NC}\n"
-    return 1
-}
+COLOR_SUCCESS=$GREEN
+COLOR_FAILURE=$RED
+COLOR_NORMAL=$NORMAL
 
-function run_unit() {
-    test_script_name="$1"
-    echo "Test suite $(basename $test_script_name):"
-
-    source "$test_script_name"
-    # Compile tests
-    test_names=($(cat "$test_script_name" | grep "^function test_" | sed "s/^function \(test_[^(]\+\).*/\1/g"))
-    for test_name in ${test_names[@]}; do
-        run_test "${test_name}" || return 1
+run_test_suite() {
+    test_suite_filepath="$1"
+    echo "Test suite $(basename $test_suite_filepath):"
+    source "$test_suite_filepath"
+    # Extract a list of functions that are prefixed with "test_"
+    test_functions=($(cat "$test_suite_filepath" | grep -o "\btest_[^(]\+(" | sed 's/.$//'))
+    # Find the length of the function with the longest name
+    max_length=$(printf "%s\n" "${test_functions[@]}" | sort -u | awk '{print length}' | sort -nr | head -1)
+    # Specify the printf template that is used to print out the current test status
+    # Go through the list of functions and 
+    suite_status=0
+    for test_function in ${test_functions[@]}; do
+        printf "  %-$((max_length+2))s" "$test_function"
+        if eval "$test_function"; then
+            printf "[ ${COLOR_SUCCESS}OK${COLOR_NORMAL} ]"
+        else
+            printf "[ ${COLOR_FAILURE}FAIL${COLOR_NORMAL} ]"
+            suite_status=1
+        fi
+        printf "\n"
     done
+    return $suite_status
 }
-

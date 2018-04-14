@@ -4,7 +4,7 @@ set -e
 TESTS=$( cd "$( dirname "$(readlink -f "${BASH_SOURCE[0]}")" )" && pwd )
 source "$TESTS/unit"
 
-for unit in $TESTS/test_*; do
-    run_unit "$unit"
+for test_suite in $TESTS/test_*; do
+    run_test_suite "$test_suite"
 done 
 

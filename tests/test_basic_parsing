@@ -6,9 +6,10 @@ YAML_FILENAME=$SCRIPT_DIR/sample.yml
 
 # Define tests
 function test_reading_values() {
-    [ "$(cat $YAML_FILENAME | yaml_get_value author.name)" == "Djordje Ungar" ] &&
-    [ "$(cat $YAML_FILENAME | yaml_get_value author.username)" == "artbit" ] &&
-    [ "$(cat $YAML_FILENAME | yaml_get_value author.email)" == "artbit@email.com" ] &&
+    yaml=$(cat $YAML_FILENAME)
+    [ "$(echo "$yaml" | yaml_get_value author.name)" == "Djordje Ungar" ] &&
+    [ "$(echo "$yaml" | yaml_get_value author.username)" == "artbit" ] &&
+    [ "$(echo "$yaml" | yaml_get_value author.email)" == 'artbit@email.com' ] &&
     return 0 || return 1
 }
 function test_dumbl() {
