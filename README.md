@@ -38,16 +38,16 @@ cat example1.yml | yaml_get_value some.deeply.nested.option
 eval "$(cat example2.yml | yaml_parse app.settings)"
 # Defines the following bash variables
 # app_settings=""
-# app_settings.title="My Awesome App"
-# app_settings.color="#DADADA"
-# app_settings.language="en"
+# app_settings_title="My Awesome App"
+# app_settings_color="#DADADA"
+# app_settings_language="en"
 
 eval "$(cat example.yml | yaml_parse app.settings --prefix noconflict)"
 # Defines the following bash variables
 # noconflict_app_settings=""
-# noconflict_app_settings.title="My Awesome App"
-# noconflict_app_settings.color="#DADADA"
-# noconflict_app_settings.language="en"
+# noconflict_app_settings_title="My Awesome App"
+# noconflict_app_settings_color="#DADADA"
+# noconflict_app_settings_language="en"
 ```
 
 ## Example 3: replace yaml values
@@ -63,11 +63,24 @@ eval "$(cat example.yml | yaml_parse app.settings --prefix noconflict)"
 cat example3.yml | 
   yaml_replace app.settings.color "#FFF" |
   yaml_replace app.settings.language "rs" |
-  sponge example3.yml
+  yaml_replace app.settings.title "My Other App"
 
-# sponge is used to wait for the stdin to dry-out 
-# before writing to example3.yml effectively avoiding 
-#race conditions
+# Will output: 
+app:
+  settings:
+    title: My Awesome App
+    color: #DADADA
+    language: en
+
+# The source file is not automatically updated, if you
+# want to update the original filename, please use 
+# `sponge` to wait for the stdin to dry-out 
+# before writing to original file, to avoid race conditions.
+cat example3.yml | 
+  yaml_replace app.settings.color "#FFF" |
+  yaml_replace app.settings.language "rs" |
+  yaml_replace app.settings.title "My Other App" |
+  sponge example3.yml
 ```
 
 
