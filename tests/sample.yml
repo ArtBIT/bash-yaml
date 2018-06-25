@@ -5,3 +5,7 @@ author:
 repo:
   name: bash-yaml
   description: lame yaml parser
+key:
+  subkey: something
+  subkey2: something
+    subsubkey2: something something

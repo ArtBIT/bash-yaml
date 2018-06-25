@@ -26,6 +26,14 @@ function test_replacing_values() {
     [ "$(echo "$replaced" | yaml_get_value author.email )" == "someone@email.com" ] &&
     return 0 || return 1
 }
+function test_removing_values() {
+    replaced=$(cat $YAML_FILENAME | yaml_remove 'author')
+    [ "$(echo "$replaced" | yaml_get_value author.name )" == "" ] &&
+    [ "$(echo "$replaced" | yaml_get_value author.username )" == "" ] &&
+    [ "$(echo "$replaced" | yaml_get_value author.email )" == "" ] &&
+    [ "$(echo "$replaced" | yaml_get_value repo.name )" == "bash-yaml" ] &&
+    return 0 || return 1
+}
 function test_parse() {
     yaml=$(cat $YAML_FILENAME)
     eval "$(echo "$yaml" | yaml_parse author.name --prefix test)"

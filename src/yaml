@@ -24,9 +24,9 @@ INDENT=$(eval "printf ' %.0s' {1..$SPACES_PER_INDENT}")
 #
 yaml_to_dumbl() {
     while IFS= read -r line; do
-        num_spaces=$(echo "$line" | sed 's/[^ ]//g' | wc -c)
+        num_spaces=$(echo "$line" | sed -e 's/:.*//g' -e 's/[^ ]//g' | wc -c)
         level=$(((num_spaces-1)/$SPACES_PER_INDENT))
-        if [ "$level" -eq 0 ]; then
+        if [ "$level" -le 0 ]; then
             nodes=()
         else
             nodes=("${nodes[@]:0:$level}")
