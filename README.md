@@ -75,9 +75,9 @@ cat example3.yml |
 # Will output: 
 app:
   settings:
-    title: My Awesome App
-    color: #DADADA
-    language: en
+    title: My Other App
+    color: #FFF
+    language: rs
 
 # The source file is not automatically updated, if you
 # want to update the original filename, please use 

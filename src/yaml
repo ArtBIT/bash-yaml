@@ -69,6 +69,10 @@ yaml_remove() {
     cat /dev/stdin | yaml_to_dumbl | grep -v "^$1" | dumbl_to_yaml
 }
 
+yaml_rename() {
+    cat /dev/stdin | yaml_to_dumbl | sed "s/$1\(.*:\)/$2\1/g" | dumbl_to_yaml
+}
+
 yaml_get() {
     cat /dev/stdin | yaml_to_dumbl | grep "$1" - | dumbl_to_yaml
 }
@@ -77,8 +81,22 @@ yaml_get_value() {
     cat /dev/stdin | yaml_to_dumbl | grep "$1" | dumbl_to_yaml | sed 's/^[^:]\+: *//'
 }
 
-yaml_rename() {
-    cat /dev/stdin | yaml_to_dumbl | sed "s/$1\(.*:\)/$2\1/g" | dumbl_to_yaml
+# TODO: BROKEN
+yaml_set() {
+    local level=0
+    local current_doturi=
+    IFS='.' read -r -a parts <<< "$1"
+    while IFS= read -r line; do
+        doturi=$(echo "$line" | sed -e 's/:.*//g' -e 's/^ *//g')
+        if [ -z "$current_doturi" ]; then 
+            current_doturi="${parts[$level]}"
+            level=$((level+1))
+        fi
+        if [ "$doturi" == "$current_doturi" ]; then
+            current_doturi="${parts[$level]}"
+            level=$((level+1))
+        fi
+    done < <(cat /dev/stdin | yaml_to_dumbl | sort)
 }
 
 yaml_parse() {
